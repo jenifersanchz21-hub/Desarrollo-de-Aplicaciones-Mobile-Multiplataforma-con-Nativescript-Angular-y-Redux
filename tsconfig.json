@@ -3,22 +3,39 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "module": "esnext",
-    "target": "ES2020",
+    "target": "es2020",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noEmitHelpers": true,
     "noEmitOnError": true,
-    "skipLibCheck": true,
-    "lib": ["ESNext", "dom"],
+    "lib": [
+      "ESNext",
+      "dom"
+    ],
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"],
-      "@/*": ["src/*"]
-    }
+      "~/*": [
+        "src/*"
+      ],
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "removeComments": false
   },
-  "include": ["./src/**/*.ios.ts", "./src/**/*.android.ts"],
-  "files": ["./src/main.ts", "./references.d.ts", "./src/polyfills.ts"],
-  "exclude": ["node_modules", "platforms"]
+  "include": [
+    "./src/**/*.ios.ts",
+    "./src/**/*.android.ts"
+  ],
+  "files": [
+    "./src/main.ts",
+    "./references.d.ts",
+    "./src/polyfills.ts",
+    "./src\\polyfills.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "platforms"
+  ]
 }
-

@@ -1,9 +1,10 @@
-import { platformNativeScript, registerElement, runNativeScriptAngularApp } from '@nativescript/angular';
+import { platformNativeScriptDynamic } from '@nativescript/angular';
 import { AppModule } from './app/app.module';
 
-// Usar el nuevo plugin actualizado
-registerElement("PullToRefresh", () => require("@nativescript-community/ui-pulltorefresh").PullToRefresh);
+// Registrar el PullToRefresh con el nuevo plugin.
+import { registerElement } from '@nativescript/angular';
+import { PullToRefresh } from '@nativescript-community/ui-pulltorefresh';
+registerElement("PullToRefresh", () => PullToRefresh);
 
-runNativeScriptAngularApp({
-  appModuleBootstrap: () => platformNativeScript().bootstrapModule(AppModule),
-});
+// Iniciar la aplicación con el módulo de NativeScript.
+platformNativeScriptDynamic().bootstrapModule(AppModule);
