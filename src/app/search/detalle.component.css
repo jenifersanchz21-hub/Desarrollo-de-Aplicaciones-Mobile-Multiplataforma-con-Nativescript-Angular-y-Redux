@@ -1,0 +1,20 @@
+.list-group-item {
+    background-color: #ffffff;
+    margin: 5 0;
+    border-radius: 5;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+    font-size: 16;
+}
+
+.body {
+    font-size: 14;
+    color: #666;
+}
+
+.fas {
+    font-family: "Font Awesome 5 Free", "fa-solid-900";
+    font-weight: 900;
+}

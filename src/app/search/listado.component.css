@@ -1,0 +1,14 @@
+.list-group-item {
+    border-bottom-width: 1;
+    border-bottom-color: #eeeeee;
+}
+
+.thumb {
+    border-radius: 25;
+    background-color: #007bff;
+}
+
+.fas {
+    font-size: 16;
+    color: #cccccc;
+}

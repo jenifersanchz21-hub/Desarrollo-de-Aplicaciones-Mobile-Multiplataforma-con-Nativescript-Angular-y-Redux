@@ -1,0 +1,28 @@
+<ActionBar class="action-bar">
+  <NavigationButton visibility="hidden"></NavigationButton>
+  <GridLayout columns="50, *">
+    <Label class="action-bar-title" text="Listado" colSpan="2"></Label>
+    <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()" col="0"></Label>
+  </GridLayout>
+</ActionBar>
+
+<StackLayout class="page page-content">
+    <ListView class="list-group" [items]="noticias.buscar()" (itemTap)="onItemTap($event)">
+        <ng-template let-noticia="item" let-i="index">
+            <FlexboxLayout flexDirection="row" class="list-group-item" style="padding: 15;">
+                <!-- Imagen -->
+                <Image src="res://icon" class="thumb img-circle" width="50" height="50"></Image>
+                
+                <!-- Texto -->
+                <Label [text]="noticia" 
+                       class="list-group-item-heading" 
+                       verticalAlignment="center" 
+                       style="margin-left: 15; width: 70%;">
+                </Label>
+                
+                <!-- Ícono de flecha -->
+                <Label text="&#xf054;" class="fas" verticalAlignment="center"></Label>
+            </FlexboxLayout>
+        </ng-template>
+    </ListView>
+</StackLayout>

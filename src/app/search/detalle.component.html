@@ -1,0 +1,62 @@
+<ActionBar title="Detalle de Noticia" class="action-bar">
+    <NavigationButton text="Atrás" (tap)="volverAtras()"></NavigationButton>
+</ActionBar>
+
+<ScrollView class="page page-content">
+    <StackLayout style="padding: 20;">
+
+        <!-- Título de la noticia -->
+        <Label [text]="noticia" class="h2" textWrap="true" horizontalAlignment="center" style="margin: 20 0;"></Label>
+
+        <!-- Sección de opiniones -->
+        <Label text="Opiniones de Usuarios:" class="h3" style="margin: 0 0 15 0;"></Label>
+
+        <!-- Pull to Refresh -->
+        <PullToRefresh (refresh)="onPull($event)">
+            <ListView [items]="opiniones" style="height: 400;">
+                <ng-template let-opinion="item">
+                    <!-- GridLayout anidado como en el Anexo 1 -->
+                    <GridLayout rows="auto, auto" columns="*, auto" style="padding: 15; margin: 8 0; background-color: #f8f9fa; border-radius: 8; border-width: 1; border-color: #dee2e6;">
+                        
+                        <!-- Fila 1: Información de la opinión y puntuación -->
+                        <StackLayout row="0" col="0">
+                            <Label [text]="opinion.usuario" class="font-weight-bold" style="color: #343a40;"></Label>
+                            <Label [text]="opinion.comentario" textWrap="true" style="margin-top: 5;"></Label>
+                        </StackLayout>
+
+                        <!-- Puntuación con estrellas -->
+                        <StackLayout row="0" col="1" horizontalAlignment="right">
+                            <Label [text]="'★ '.repeat(opinion.puntuacion) + '☆ '.repeat(5 - opinion.puntuacion)" 
+                                   style="color: #ffc107; font-size: 16;"></Label>
+                            <Label [text]="opinion.puntuacion + '/5'" style="text-align: center; font-size: 12; color: #6c757d;"></Label>
+                        </StackLayout>
+
+                        <!-- Fila 2: Botones de acción -->
+                        <GridLayout row="1" col="0" colSpan="2" columns="*, *, *" style="margin-top: 12;">
+                            <!-- Voto positivo -->
+                            <Button col="0" text="👍" (tap)="votoPositivo(opinion)" 
+                                    class="btn btn-outline" style="font-size: 18; padding: 5;"></Button>
+                            
+                            <!-- Voto negativo -->
+                            <Button col="1" text="👎" (tap)="votoNegativo(opinion)" 
+                                    class="btn btn-outline" style="font-size: 18; padding: 5;"></Button>
+                            
+                            <!-- Eliminar -->
+                            <Button col="2" text="🗑️" (tap)="eliminarOpinion(opinion)" 
+                                    class="btn btn-outline" style="font-size: 18; padding: 5;"></Button>
+                        </GridLayout>
+
+                    </GridLayout>
+                </ng-template>
+            </ListView>
+        </PullToRefresh>
+
+        <!-- Botones adicionales -->
+        <StackLayout style="margin-top: 20;">
+            <Button text="🎭 Cambiar Categoría (Ejemplo)" (tap)="seleccionarCategoria(opiniones[0])" 
+                    class="btn btn-outline" style="margin-bottom: 10;"></Button>
+            <Button text="Volver al Listado" (tap)="volverAListado()" class="btn btn-primary"></Button>
+        </StackLayout>
+
+    </StackLayout>
+</ScrollView>

@@ -1,9 +1,13 @@
-import { NgModule } from '@angular/core'
-import { Routes } from '@angular/router'
-import { NativeScriptRouterModule } from '@nativescript/angular'
+import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
+import { NativeScriptRouterModule } from '@nativescript/angular';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { 
+    path: '', 
+    redirectTo: '/home', 
+    pathMatch: 'full' 
+  },
   {
     path: 'home',
     loadChildren: () => import('~/app/home/home.module').then((m) => m.HomeModule),
@@ -28,7 +32,7 @@ const routes: Routes = [
     path: 'save',
     loadChildren: () => import('~/app/save/save.module').then((m) => m.SaveModule),
   },
-]
+];
 
 @NgModule({
   imports: [NativeScriptRouterModule.forRoot(routes)],

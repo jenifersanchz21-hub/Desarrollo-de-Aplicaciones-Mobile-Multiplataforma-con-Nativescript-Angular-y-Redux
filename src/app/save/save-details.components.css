@@ -1,0 +1,35 @@
+.detail-icon {
+    font-size: 32;
+    text-align: center;
+    margin: 20;
+    color: #3f51b5;
+}
+
+.detail-title {
+    font-size: 20;
+    font-weight: bold;
+    text-align: center;
+    margin: 10;
+    color: #333;
+}
+
+.detail-date {
+    font-size: 14;
+    text-align: center;
+    margin: 5;
+    color: #666;
+}
+
+.detail-image {
+    width: 200;
+    height: 200;
+    margin: 20;
+    initial-letter-align: center;
+}
+
+.detail-description {
+    font-size: 16;
+    margin: 20;
+    text-align: justify;
+    color: #444;
+}
