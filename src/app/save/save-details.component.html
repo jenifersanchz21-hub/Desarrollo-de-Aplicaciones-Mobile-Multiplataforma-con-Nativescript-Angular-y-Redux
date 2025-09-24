@@ -1,0 +1,13 @@
+<ActionBar class="action-bar">
+  <NavigationButton visibility="hidden"></NavigationButton>
+  <GridLayout columns="50, *">
+    <Label class="action-bar-title" text="Detalles Guardados" colSpan="2"></Label>
+    <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()" col="0"></Label>
+  </GridLayout>
+</ActionBar>
+
+<GridLayout class="page__content">
+  <Label class="page__content-icon far" text="&#xf15b;"></Label>
+  <Label class="page__content-placeholder" text="Detalles del elemento guardado"></Label>
+  <Button text="Volver a Lista" (tap)="navigateToList()" class="btn btn-primary"></Button>
+</GridLayout>

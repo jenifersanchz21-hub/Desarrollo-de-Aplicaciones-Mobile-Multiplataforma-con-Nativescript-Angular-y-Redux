@@ -1,0 +1,30 @@
+/* Estilos comunes */
+.page__content {
+    padding: 20;
+    margin: 10;
+}
+
+.btn-primary {
+    padding: 15;
+    margin: 10;
+    border-radius: 5;
+}
+
+.action-bar-title {
+    font-size: 20;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Importar estilos específicos de plataforma */
+@import url('./save-list.component.ios.css');
+@import url('./save-list.component.android.css');
+
+.platform-info {
+    font-size: 16;
+    text-align: center;
+    margin: 20;
+    padding: 10;
+    background-color: #e0e0e0;
+    border-radius: 5;
+}

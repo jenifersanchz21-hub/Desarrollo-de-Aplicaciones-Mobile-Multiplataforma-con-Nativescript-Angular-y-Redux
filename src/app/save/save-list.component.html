@@ -1,0 +1,17 @@
+<ActionBar class="action-bar">
+  <NavigationButton visibility="hidden"></NavigationButton>
+  <GridLayout columns="50, *">
+    <Label class="action-bar-title" text="Guardados" colSpan="2"></Label>
+    <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()" col="0"></Label>
+  </GridLayout>
+</ActionBar>
+
+<GridLayout class="page__content">
+  <Label class="page__content-icon far" text="&#xf02e;"></Label>
+  <Label class="page__content-placeholder" text="Lista de elementos guardados"></Label>
+  
+  <!-- Mostrar la variable condicional -->
+  <Label [text]="platformIcon + ' ' + platformMessage" class="platform-info"></Label>
+  
+  <Button text="Ver Detalles" (tap)="navigateToDetails()" class="btn btn-primary"></Button>
+</GridLayout>
