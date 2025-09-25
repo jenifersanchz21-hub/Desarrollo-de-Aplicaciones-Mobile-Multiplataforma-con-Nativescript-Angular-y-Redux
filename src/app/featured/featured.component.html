@@ -1,13 +1,53 @@
 <ActionBar class="action-bar">
   <NavigationButton visibility="hidden"></NavigationButton>
   <GridLayout columns="50, *">
-    <Label class="action-bar-title" text="Featured" colSpan="2"></Label>
-
-    <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()"></Label>
+    <Label class="action-bar-title" text="Cámara + Compartir" colSpan="2"></Label>
+    <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()" col="0"></Label>
   </GridLayout>
 </ActionBar>
 
-<GridLayout class="page__content">
-  <Label class="page__content-icon fas" text="&#xf005;"></Label>
-  <Label class="page__content-placeholder" text="<!-- Page content goes here -->"></Label>
-</GridLayout>
+<ScrollView class="page__content">
+  <StackLayout class="p-20">
+    
+    <Label class="page__content-icon fas" text="&#xf030;"></Label>
+    <Label [text]="mensaje" class="h3 text-center m-t-10" textWrap="true"></Label>
+    
+    <ActivityIndicator [busy]="isLoading" class="m-t-10" height="50"></ActivityIndicator>
+
+    <!-- Botones principales -->
+    <Button text="📷 Tomar Foto y Compartir" (tap)="tomarFotoYCompartir()" class="btn btn-primary m-t-10"></Button>
+    
+    <Button text="🎯 Solo Tomar Foto" (tap)="tomarFoto()" class="btn btn-outline m-t-5"></Button>
+
+    <!-- Botones de compartir -->
+    <GridLayout columns="*, *" class="m-t-10">
+      <Button col="0" text="📤 Compartir Normal" 
+              [isEnabled]="imagenCapturada" 
+              (tap)="compartirFoto()" 
+              class="btn btn-success m-r-5"></Button>
+      <Button col="1" text="🔄 Compartir Alternativo" 
+              [isEnabled]="imagenCapturada" 
+              (tap)="compartirFotoAlternativa()" 
+              class="btn btn-warning m-l-5"></Button>
+    </GridLayout>
+
+    <GridLayout columns="*, *" class="m-t-5">
+      <Button col="0" text="💬 Compartir Texto" (tap)="compartirTexto()" class="btn btn-info m-r-5"></Button>
+      <Button col="1" text="🌐 Compartir URL" (tap)="compartirImagenURL()" class="btn btn-secondary m-l-5"></Button>
+    </GridLayout>
+
+    <Button text="🗑️ Limpiar Foto" 
+            [isEnabled]="imagenCapturada" 
+            (tap)="limpiarFoto()" 
+            class="btn btn-danger m-t-5"></Button>
+
+    <!-- Vista previa -->
+    <StackLayout *ngIf="imagenCapturada" class="m-t-20 p-15 border">
+      <Label text="Vista Previa:" class="h2 text-center m-b-10"></Label>
+      <Image [src]="imagenCapturada" height="200" stretch="aspectFit"></Image>
+    </StackLayout>
+
+    <Label text="✅ Sin errores de tipo - Métodos directos" class="body small text-center m-t-20"></Label>
+
+  </StackLayout>
+</ScrollView>

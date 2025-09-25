@@ -1,15 +1,13 @@
-<!-- src/app/browse/browse.component.html -->
 <ActionBar class="action-bar">
   <NavigationButton visibility="hidden"></NavigationButton>
   <GridLayout columns="50, *, auto">
     <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()" col="0"></Label>
     <Label class="action-bar-title" [text]="modoFavoritos ? 'Mis Favoritos' : 'Buscar Noticias'" col="1"></Label>
-    <Button col="2" text="⭐ Favoritos" (tap)="verFavoritos()" class="btn btn-warning"></Button>
+    <Button col="2" text="⭐" (tap)="verFavoritos()" class="btn btn-warning"></Button>
   </GridLayout>
 </ActionBar>
 
 <GridLayout class="page__content" rows="auto, auto, *">
-  <!-- Campo de búsqueda (solo visible en modo búsqueda) -->
   <StackLayout row="0" class="p-10" *ngIf="!modoFavoritos">
     <TextField [(ngModel)]="query" hint="Escribe tu búsqueda..." class="input"></TextField>
     <GridLayout columns="*, *" class="m-t-10">
@@ -18,20 +16,17 @@
     </GridLayout>
   </StackLayout>
 
-  <!-- Mensaje de favoritos (solo visible en modo favoritos) -->
   <StackLayout row="0" class="p-10" *ngIf="modoFavoritos">
-    <Label class="h2 text-center" text="📚 Mis Favoritos Guardados"></Label>
+    <Label class="h2 text-center" text="📚 Mis Favoritos"></Label>
     <Button text="Volver a Búsqueda" (tap)="limpiarBusqueda()" class="btn btn-outline"></Button>
   </StackLayout>
 
-  <!-- Loading indicator -->
   <ActivityIndicator [busy]="isLoading" row="1" class="m-10"></ActivityIndicator>
 
-  <!-- Resultados -->
   <ScrollView row="2" class="p-10">
     <StackLayout>
       <Label *ngIf="resultados.length === 0 && !isLoading" 
-             [text]="modoFavoritos ? 'No tienes favoritos guardados' : 'No hay resultados para mostrar'" 
+             [text]="modoFavoritos ? 'No tienes favoritos' : 'No hay resultados'" 
              class="h2 text-center"></Label>
       
       <StackLayout *ngFor="let item of resultados; let i = index" class="m-b-10">
@@ -39,18 +34,24 @@
         <Label *ngIf="item.descripcion || item.body" [text]="item.descripcion || item.body" class="body" textWrap="true"></Label>
         <Label *ngIf="item.fecha" [text]="'Guardado: ' + item.fecha" class="body small"></Label>
         
-        <GridLayout columns="*, auto" class="m-t-5">
-          <!-- Icono de favoritos (corazón) -->
+        <GridLayout columns="*, *, auto" class="m-t-5">
           <Button col="0" 
                   [class]="item.esFavorito ? 'btn btn-danger' : 'btn btn-outline'" 
                   (tap)="item.esFavorito ? eliminarFavorito(item) : agregarFavorito(item)">
             <FormattedString>
               <Span class="fas" [text]="item.esFavorito ? '&#xf004;' : '&#xf08a;'"></Span>
-              <Span [text]="item.esFavorito ? '  Quitar Favorito' : '  Agregar Favorito'"></Span>
+              <Span [text]="item.esFavorito ? ' Quitar' : ' Fav'"></Span>
             </FormattedString>
           </Button>
           
-          <Button [text]="'#' + (i + 1)" (tap)="onItemTap(item)" col="1" class="btn btn-primary m-l-5"></Button>
+          <Button col="1" class="btn btn-success" (tap)="compartirNoticia(item)">
+            <FormattedString>
+              <Span text="📤 "/>
+              <Span text="Compartir"/>
+            </FormattedString>
+          </Button>
+          
+          <Button [text]="'#' + (i + 1)" (tap)="onItemTap(item)" col="2" class="btn btn-primary m-l-5"></Button>
         </GridLayout>
         
         <StackLayout class="hr m-t-10"></StackLayout>

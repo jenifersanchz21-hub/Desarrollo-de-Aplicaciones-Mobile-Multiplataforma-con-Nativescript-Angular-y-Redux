@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "383556656751",
+    "project_id": "mydrawerng-49007",
+    "storage_bucket": "mydrawerng-49007.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383556656751:android:6b930f1d7b545ab35af79a",
+        "android_client_info": {
+          "package_name": "mydrawer.ng"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrEVHiqnv-iYUppV6-jwTjecvWS0-mVLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

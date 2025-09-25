@@ -1,13 +1,26 @@
-<ActionBar class="action-bar">
-  <NavigationButton visibility="hidden"></NavigationButton>
-  <GridLayout columns="50, *">
-    <Label class="action-bar-title" text="Home" colSpan="2"></Label>
+<ActionBar title="Compartir Imágenes Locales"></ActionBar>
 
-    <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()"></Label>
-  </GridLayout>
-</ActionBar>
-
-<GridLayout class="page__content">
-  <Label class="page__content-icon fas" text="&#xf015;"></Label>
-  <Label class="page__content-placeholder" text="<!-- Busquedas -->"></Label>
-</GridLayout>
+<ScrollView>
+  <StackLayout class="p-20">
+    <Label text="Compartir Imágenes Locales" class="h1 text-center m-b-20"></Label>
+    
+    <!-- Compartir texto -->
+    <Button text="📝 Compartir Texto" (tap)="compartirTexto()" class="btn btn-primary"></Button>
+    
+    <!-- Compartir imágenes individuales -->
+    <Button text="🖼️ Compartir Sample 1" (tap)="compartirSample1()" class="btn btn-outline m-t-10"></Button>
+    <Button text="🖼️ Compartir Sample 2" (tap)="compartirSample2()" class="btn btn-outline m-t-5"></Button>
+    <Button text="🖼️ Compartir Sample 3" (tap)="compartirSample3()" class="btn btn-outline m-t-5"></Button>
+    
+    <!-- Compartir todas -->
+    <Button text="📸 Compartir Todas las Imágenes" (tap)="compartirTodasLasImagenes()" class="btn btn-success m-t-20"></Button>
+    
+    <!-- Vista previa de las imágenes -->
+    <Label text="Vista Previa:" class="h2 m-t-20"></Label>
+    <Image src="~/app/assets/images/sample1.jpeg" height="100" class="m-t-10"></Image>
+    <Image src="~/app/assets/images/sample2.jpeg" height="100" class="m-t-5"></Image>
+    <Image src="~/app/assets/images/sample3.jpeg" height="100" class="m-t-5"></Image>
+    
+    <Label text="Las imágenes se cargan desde src/app/assets/images/" class="body m-t-20 text-center"></Label>
+  </StackLayout>
+</ScrollView>

@@ -1,6 +1,11 @@
 // You can add your native dependencies here
 dependencies {
 //  implementation 'androidx.multidex:multidex:2.0.1'
+  
+  //  DEPENDENCIAS DE FIREBASE (AGREGAR ESTO)
+  implementation 'com.google.android.gms:play-services-base:18.0.1'
+  implementation 'com.google.firebase:firebase-messaging:23.0.0'
+  implementation 'com.google.firebase:firebase-core:21.1.1'
 }
 
 android {
@@ -23,3 +28,4 @@ android {
     additionalParameters "--no-version-vectors"
   }
 }
+
