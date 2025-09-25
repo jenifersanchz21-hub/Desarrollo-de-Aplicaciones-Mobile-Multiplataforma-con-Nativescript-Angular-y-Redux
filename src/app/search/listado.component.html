@@ -9,19 +9,57 @@
 <StackLayout class="page page-content">
     <ListView class="list-group" [items]="noticias.buscar()" (itemTap)="onItemTap($event)">
         <ng-template let-noticia="item" let-i="index">
-            <FlexboxLayout flexDirection="row" class="list-group-item" style="padding: 15;">
-                <!-- Imagen -->
-                <Image src="res://icon" class="thumb img-circle" width="50" height="50"></Image>
+            <FlexboxLayout 
+                flexDirection="row" 
+                class="list-group-item" 
+                style="padding: 15;"
+                (tap)="onItemTap($event)"
+                (longPress)="onLongPress($event, noticia, i)"
+                #listItem>
+                
+                <!-- Imagen desde diferentes orígenes -->
+                <StackLayout width="60" height="60" marginRight="15">
+                    <!-- Imagen según el índice para demostrar diferentes orígenes -->
+                    <Image *ngIf="i % 3 === 0" src="res://icon" 
+                           class="thumb img-circle" 
+                           stretch="aspectFill"
+                           (loadStarted)="onImageLoadStart($event, i)"
+                           (loadFinished)="onImageLoadEnd($event, i)"></Image>
+                    
+                    <Image *ngIf="i % 3 === 1" src="~/assets/images/sample{{i % 3 + 1}}.jpeg" 
+                           class="thumb img-circle" 
+                           stretch="aspectFill"
+                           (loadStarted)="onImageLoadStart($event, i)"
+                           (loadFinished)="onImageLoadEnd($event, i)"></Image>
+                    
+                    <Image *ngIf="i % 3 === 2" src="~/assets/images/sample{{i % 3 + 1}}.jpeg" 
+                           class="thumb img-circle" 
+                           stretch="aspectFill"
+                           (loadStarted)="onImageLoadStart($event, i)"
+                           (loadFinished)="onImageLoadEnd($event, i)"></Image>
+                    
+                    <!-- Loading indicator -->
+                    <ActivityIndicator *ngIf="loadingImages[i]" 
+                                     busy="true" 
+                                     width="20" 
+                                     height="20"
+                                     style="position: absolute; top: 20; left: 20;"></ActivityIndicator>
+                </StackLayout>
                 
                 <!-- Texto -->
                 <Label [text]="noticia" 
                        class="list-group-item-heading" 
                        verticalAlignment="center" 
-                       style="margin-left: 15; width: 70%;">
+                       style="margin-left: 15; width: 60%;">
                 </Label>
                 
-                <!-- Ícono de flecha -->
-                <Label text="&#xf054;" class="fas" verticalAlignment="center"></Label>
+                <!-- Badge de origen de imagen -->
+                <StackLayout verticalAlignment="center" style="margin-left: 10;">
+                    <Label *ngIf="i % 3 === 0" text="📱" style="font-size: 16;"></Label>
+                    <Label *ngIf="i % 3 === 1" text="🌐" style="font-size: 16;"></Label>
+                    <Label *ngIf="i % 3 === 2" text="📁" style="font-size: 16;"></Label>
+                    <Label text="➡️" class="fas" style="font-size: 14; margin-top: 5;"></Label>
+                </StackLayout>
             </FlexboxLayout>
         </ng-template>
     </ListView>

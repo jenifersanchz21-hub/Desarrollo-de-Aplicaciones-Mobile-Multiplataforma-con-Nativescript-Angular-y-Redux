@@ -3,59 +3,97 @@
 </ActionBar>
 
 <ScrollView class="page page-content">
-    <StackLayout style="padding: 20;">
+    <StackLayout style="padding: 15;">
+
+        <!-- Barra de búsqueda con validación -->
+        <StackLayout style="margin-bottom: 15; background-color: #f8f9fa; padding: 15; border-radius: 8;">
+            <Label text="🔍 Buscar en opiniones" class="h3" style="margin-bottom: 10;"></Label>
+            
+            <TextField [(ngModel)]="textoBusqueda" 
+                      hint="Buscar por usuario o comentario..." 
+                      [class.error]="errorBusqueda"
+                      style="padding: 10; border-width: 2; border-radius: 5; margin-bottom: 5;"
+                      [style.border-color]="errorBusqueda ? '#f44336' : '#ccc'"></TextField>
+            
+            <!-- Mensaje de error -->
+            <Label *ngIf="errorBusqueda" [text]="'❌ ' + errorBusqueda" 
+                   style="color: #f44336; font-size: 12; margin-bottom: 10;"></Label>
+            
+            <GridLayout columns="*, *" style="margin-top: 10;">
+                <Button col="0" text="Filtrar" (tap)="filtrarOpiniones()" 
+                        class="btn btn-primary" style="margin-right: 5;"></Button>
+                <Button col="1" text="Limpiar" (tap)="limpiarBusqueda()" 
+                        class="btn btn-outline" style="margin-left: 5;"></Button>
+            </GridLayout>
+            
+            <Label [text]="'Encontradas: ' + opinionesFiltradas.length + ' de ' + opiniones.length + ' opiniones'" 
+                   style="margin-top: 10; color: #666; font-size: 12; text-align: center;"></Label>
+        </StackLayout>
 
         <!-- Título de la noticia -->
-        <Label [text]="noticia" class="h2" textWrap="true" horizontalAlignment="center" style="margin: 20 0;"></Label>
+        <Label [text]="noticia" class="h2" textWrap="true" horizontalAlignment="center" 
+               style="margin: 15 0; padding: 15; background-color: #e3f2fd; border-radius: 8;"></Label>
 
-        <!-- Sección de opiniones -->
-        <Label text="Opiniones de Usuarios:" class="h3" style="margin: 0 0 15 0;"></Label>
+        <!-- Mensaje si no hay resultados de búsqueda -->
+        <Label *ngIf="opinionesFiltradas.length === 0 && textoBusqueda && !errorBusqueda" 
+               text="❌ No se encontraron opiniones que coincidan con la búsqueda." 
+               style="color: #d32f2f; text-align: center; padding: 20; font-weight: bold;"></Label>
 
-        <!-- Pull to Refresh -->
+        <!-- Lista de opiniones -->
         <PullToRefresh (refresh)="onPull($event)">
-            <ListView [items]="opiniones" style="height: 400;">
-                <ng-template let-opinion="item">
-                    <!-- GridLayout anidado como en el Anexo 1 -->
-                    <GridLayout rows="auto, auto" columns="*, auto" style="padding: 15; margin: 8 0; background-color: #f8f9fa; border-radius: 8; border-width: 1; border-color: #dee2e6;">
-                        
-                        <!-- Fila 1: Información de la opinión y puntuación -->
-                        <StackLayout row="0" col="0">
-                            <Label [text]="opinion.usuario" class="font-weight-bold" style="color: #343a40;"></Label>
-                            <Label [text]="opinion.comentario" textWrap="true" style="margin-top: 5;"></Label>
-                        </StackLayout>
-
-                        <!-- Puntuación con estrellas -->
-                        <StackLayout row="0" col="1" horizontalAlignment="right">
-                            <Label [text]="'★ '.repeat(opinion.puntuacion) + '☆ '.repeat(5 - opinion.puntuacion)" 
-                                   style="color: #ffc107; font-size: 16;"></Label>
-                            <Label [text]="opinion.puntuacion + '/5'" style="text-align: center; font-size: 12; color: #6c757d;"></Label>
-                        </StackLayout>
-
-                        <!-- Fila 2: Botones de acción -->
-                        <GridLayout row="1" col="0" colSpan="2" columns="*, *, *" style="margin-top: 12;">
-                            <!-- Voto positivo -->
-                            <Button col="0" text="👍" (tap)="votoPositivo(opinion)" 
-                                    class="btn btn-outline" style="font-size: 18; padding: 5;"></Button>
+            <StackLayout *ngIf="opinionesFiltradas.length > 0">
+                <Label text="💬 Opiniones de usuarios:" class="h3" style="margin-bottom: 10;"></Label>
+                
+                <ListView [items]="opinionesFiltradas" height="auto">
+                    <ng-template let-opinion="item">
+                        <GridLayout rows="auto, auto" columns="*, auto" 
+                                   style="padding: 15; margin: 8 0; background-color: white; border-radius: 8; border-width: 1; border-color: #e0e0e0;">
                             
-                            <!-- Voto negativo -->
-                            <Button col="1" text="👎" (tap)="votoNegativo(opinion)" 
-                                    class="btn btn-outline" style="font-size: 18; padding: 5;"></Button>
-                            
-                            <!-- Eliminar -->
-                            <Button col="2" text="🗑️" (tap)="eliminarOpinion(opinion)" 
-                                    class="btn btn-outline" style="font-size: 18; padding: 5;"></Button>
+                            <!-- Fila 1: Información de la opinión -->
+                            <StackLayout row="0" col="0">
+                                <Label [text]="'👤 ' + opinion.usuario" class="font-weight-bold" 
+                                       style="color: #1976d2; margin-bottom: 5;"></Label>
+                                <Label [text]="'💭 ' + opinion.comentario" textWrap="true" 
+                                       style="color: #424242;"></Label>
+                                <Label [text]="'📅 ' + (opinion.fecha | date:'short')" 
+                                       style="font-size: 12; color: #757575; margin-top: 5;"></Label>
+                            </StackLayout>
+
+                            <!-- Puntuación -->
+                            <StackLayout row="0" col="1" horizontalAlignment="right">
+                                <Label [text]="'★'.repeat(opinion.puntuacion) + '☆'.repeat(5 - opinion.puntuacion)" 
+                                       style="color: #ff9800; font-size: 16; margin-bottom: 5;"></Label>
+                                <Label [text]="opinion.puntuacion + '/5'" 
+                                       style="text-align: center; font-size: 12; color: #9e9e9e;"></Label>
+                            </StackLayout>
+
+                            <!-- Botones de acción -->
+                            <GridLayout row="1" col="0" colSpan="2" columns="*, *, *" style="margin-top: 12;">
+                                <Button col="0" text="👍" (tap)="votoPositivo(opinion)" 
+                                        class="btn btn-outline" style="font-size: 14;"></Button>
+                                <Button col="1" text="👎" (tap)="votoNegativo(opinion)" 
+                                        class="btn btn-outline" style="font-size: 14;"></Button>
+                                <Button col="2" text="🗑️" (tap)="eliminarOpinion(opinion)" 
+                                        class="btn btn-outline" style="font-size: 14;"></Button>
+                            </GridLayout>
                         </GridLayout>
-
-                    </GridLayout>
-                </ng-template>
-            </ListView>
+                    </ng-template>
+                </ListView>
+            </StackLayout>
         </PullToRefresh>
+
+        <!-- Mensaje cuando no hay opiniones -->
+        <Label *ngIf="opinionesFiltradas.length === 0 && !textoBusqueda && !errorBusqueda" 
+               text="📝 No hay opiniones para mostrar. Usa Pull to Refresh para agregar una nueva." 
+               style="color: #757575; text-align: center; padding: 30; font-style: italic;"></Label>
 
         <!-- Botones adicionales -->
         <StackLayout style="margin-top: 20;">
             <Button text="🎭 Cambiar Categoría (Ejemplo)" (tap)="seleccionarCategoria(opiniones[0])" 
                     class="btn btn-outline" style="margin-bottom: 10;"></Button>
-            <Button text="Volver al Listado" (tap)="volverAListado()" class="btn btn-primary"></Button>
+            <Button text="🔄 Agregar Opinión de Prueba" (tap)="simularPull()" 
+                    class="btn btn-outline" style="margin-bottom: 10;"></Button>
+            <Button text="📋 Volver al Listado" (tap)="volverAListado()" class="btn btn-primary"></Button>
         </StackLayout>
 
     </StackLayout>
