@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core'
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer'
 import { Application } from '@nativescript/core'
 import { Noticias2Service } from '../domain/noticias2.service'
-import { FavoritosService } from '../domain/favoritos.service' // ← Nuevo servicio
+import { FavoritosService } from '../domain/favoritos.service'
 
 @Component({
   selector: 'Browse',
@@ -13,16 +13,17 @@ export class BrowseComponent implements OnInit {
   resultados: any[] = [];
   query: string = '';
   isLoading: boolean = false;
+  modoFavoritos: boolean = false;
 
   constructor(
     private noticiasService: Noticias2Service,
-    private favoritosService: FavoritosService // ← Inyectar servicio
+    private favoritosService: FavoritosService
   ) {
     console.log("BrowseComponent inicializado");
   }
 
   ngOnInit(): void {
-    this.cargarDatosIniciales();
+    this.cargarFavoritos();
   }
 
   onDrawerButtonTap(): void {
@@ -34,6 +35,8 @@ export class BrowseComponent implements OnInit {
     if (!this.query.trim()) return;
 
     this.isLoading = true;
+    this.modoFavoritos = false;
+    
     this.noticiasService.buscar(this.query).subscribe(
       (resultados: any) => {
         this.resultados = Array.isArray(resultados) ? resultados : [resultados];
@@ -46,7 +49,7 @@ export class BrowseComponent implements OnInit {
     );
   }
 
-  // ✅ NUEVO MÉTODO: Agregar a favoritos usando SQLite
+  // Agregar a favoritos usando SQLite
   async agregarFavorito(noticia: any): Promise<void> {
     const nombre = noticia.title || noticia.titulo || 'Sin título';
     
@@ -63,22 +66,21 @@ export class BrowseComponent implements OnInit {
     }
   }
 
-  // ✅ NUEVO MÉTODO: Cargar favoritos desde SQLite
+  // Cargar favoritos desde SQLite
   async cargarFavoritos(): Promise<void> {
     try {
+      this.modoFavoritos = true;
       const favoritos = await this.favoritosService.obtenerFavoritos();
       this.resultados = favoritos.map(fav => ({
+        id: fav.id,
         titulo: fav.nombre,
-        esFavorito: true, // Para identificar que viene de la BD
-        fecha: fav.fecha
+        fecha: fav.fecha,
+        esFavorito: true
       }));
+      console.log("Favoritos cargados:", this.resultados.length);
     } catch (error) {
       console.error("Error al cargar favoritos:", error);
     }
-  }
-
-  cargarDatosIniciales(): void {
-    this.cargarFavoritos(); // ← Ahora carga desde SQLite
   }
 
   onItemTap(item: any): void {
@@ -87,11 +89,26 @@ export class BrowseComponent implements OnInit {
 
   limpiarBusqueda(): void {
     this.query = '';
-    this.cargarFavoritos(); // ← Recargar favoritos al limpiar
+    this.resultados = [];
+    this.modoFavoritos = false;
   }
 
-  // ✅ NUEVO MÉTODO: Cambiar entre búsqueda y favoritos
   verFavoritos(): void {
     this.cargarFavoritos();
+  }
+
+  // Eliminar favorito
+  async eliminarFavorito(item: any): Promise<void> {
+    if (item.id) {
+      try {
+        const resultado = await this.favoritosService.eliminarFavorito(item.id);
+        if (resultado.exito) {
+          alert(`🗑️ "${item.titulo}" eliminado de favoritos`);
+          this.cargarFavoritos(); // Recargar la lista
+        }
+      } catch (error) {
+        console.error("Error al eliminar favorito:", error);
+      }
+    }
   }
 }
