@@ -1,13 +1,25 @@
 <ActionBar class="action-bar">
   <NavigationButton visibility="hidden"></NavigationButton>
   <GridLayout columns="50, *">
-    <Label class="action-bar-title" text="Settings" colSpan="2"></Label>
-
+    <Label class="action-bar-title" text="Configuración" colSpan="2"></Label>
     <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()"></Label>
   </GridLayout>
 </ActionBar>
 
-<GridLayout class="page__content">
-  <Label class="page__content-icon fas" text="&#xf013;"></Label>
-  <Label class="page__content-placeholder" text="<!-- Page content goes here -->"></Label>
-</GridLayout>
+<ScrollView class="page__content">
+  <StackLayout class="p-20">
+    
+    <!-- Mostrar nombre de usuario -->
+    <Label class="h2" text="Usuario Actual"></Label>
+    <Label class="h3 m-t-10" [text]="nombreUsuario"></Label>
+    
+    <!-- Botón de edición -->
+    <Button class="btn btn-primary m-t-20" (tap)="irAEdicion()">
+      <FormattedString>
+        <Span class="fas" text="&#xf044;"></Span>
+        <Span text="  Editar Nombre"></Span>
+      </FormattedString>
+    </Button>
+
+  </StackLayout>
+</ScrollView>

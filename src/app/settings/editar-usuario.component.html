@@ -1,0 +1,24 @@
+<ActionBar class="action-bar">
+  <NavigationButton (tap)="cancelar()"></NavigationButton>
+  <Label class="action-bar-title" text="Editar Usuario"></Label>
+</ActionBar>
+
+<ScrollView class="page__content">
+  <StackLayout class="p-20">
+    
+    <Label class="h2" text="Ingresa tu nombre"></Label>
+    <TextField class="input m-t-20" [(ngModel)]="nuevoNombre" hint="Ej: Juan Pérez"></TextField>
+    
+    <Label *ngIf="!validarNombre() && nuevoNombre" class="error m-t-5" text="El nombre debe tener al menos 2 caracteres"></Label>
+    
+    <Button class="btn btn-primary m-t-20" [isEnabled]="validarNombre()" (tap)="guardarNombre()">
+      <FormattedString>
+        <Span class="fas" text="&#xf0c7;"></Span>
+        <Span text="  Guardar"></Span>
+      </FormattedString>
+    </Button>
+
+    <Button class="btn btn-outline m-t-10" (tap)="cancelar()" text="Cancelar"></Button>
+
+  </StackLayout>
+</ScrollView>

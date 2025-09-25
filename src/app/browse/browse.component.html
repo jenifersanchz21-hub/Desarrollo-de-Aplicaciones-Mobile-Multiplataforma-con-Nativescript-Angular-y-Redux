@@ -1,13 +1,50 @@
+<!-- src/app/browse/browse.component.html -->
 <ActionBar class="action-bar">
   <NavigationButton visibility="hidden"></NavigationButton>
   <GridLayout columns="50, *">
-    <Label class="action-bar-title" text="Browse" colSpan="2"></Label>
-
-    <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()"></Label>
+    <Label class="action-bar-title" text="Buscar Noticias" colSpan="2"></Label>
+    <Label class="fas" text="&#xf0c9;" (tap)="onDrawerButtonTap()" col="0"></Label>
   </GridLayout>
 </ActionBar>
 
-<GridLayout class="page__content">
-  <Label class="page__content-icon far" text="&#xf1ea;"></Label>
-  <Label class="page__content-placeholder" text="<!-- Page content goes here -->"></Label>
+<GridLayout class="page__content" rows="auto, auto, *">
+  <!-- Campo de búsqueda -->
+  <StackLayout row="0" class="p-10">
+    <TextField [(ngModel)]="query" hint="Escribe tu búsqueda..." class="input"></TextField>
+    <GridLayout columns="*, *, *" class="m-t-10">
+      <Button text="Buscar" (tap)="buscarAhora()" col="0" class="btn btn-primary m-r-5"></Button>
+      <Button text="Limpiar" (tap)="limpiarBusqueda()" col="1" class="btn btn-outline m-r-5"></Button>
+      <Button text="Favoritos" (tap)="verFavoritos()" col="2" class="btn btn-success"></Button>
+    </GridLayout>
+  </StackLayout>
+
+  <!-- Loading indicator -->
+  <ActivityIndicator [busy]="isLoading" row="1" class="m-10"></ActivityIndicator>
+
+  <!-- Resultados -->
+  <ScrollView row="2" class="p-10">
+    <StackLayout>
+      <Label *ngIf="resultados.length === 0 && !isLoading" text="No hay resultados para mostrar" class="h2 text-center"></Label>
+      
+      <StackLayout *ngFor="let item of resultados; let i = index" class="m-b-10">
+        <Label [text]="item.title || item.titulo || 'Sin título'" class="h3"></Label>
+        <Label *ngIf="item.descripcion || item.body" [text]="item.descripcion || item.body" class="body" textWrap="true"></Label>
+        <Label *ngIf="item.fecha" [text]="'Guardado: ' + item.fecha" class="body small"></Label>
+        
+        <GridLayout columns="*, auto" class="m-t-5">
+          <!-- ✅ Icono de favoritos (corazón) -->
+          <Button col="0" class="btn btn-outline" (tap)="agregarFavorito(item)">
+            <FormattedString>
+              <Span class="fas" text="&#xf004;"></Span>
+              <Span text="  Favorito"></Span>
+            </FormattedString>
+          </Button>
+          
+          <Button [text]="'#' + (i + 1)" (tap)="onItemTap(item)" col="1" class="btn btn-primary m-l-5"></Button>
+        </GridLayout>
+        
+        <StackLayout class="hr m-t-10"></StackLayout>
+      </StackLayout>
+    </StackLayout>
+  </ScrollView>
 </GridLayout>
